@@ -665,13 +665,9 @@ body:not(.home) .site-header .logo { color: var(--ink); }
 
 /* ---------- Stores page embed ---------- */
 .stores-wrapper {
-  padding: 40px 0 80px;
+  padding: 24px 0 80px;
 }
-.stores-wrapper #sl-root {
-  min-height: 680px;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
+/* height is controlled inside stores.html so list scrolls + map fills */
 
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
