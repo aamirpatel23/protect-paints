@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Store Locator — Protect Paints</title>
+<meta name="description" content="Find Protect Paints manufacturing plant, depots and distributors across India.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+
+<style>
+  /* Store locator specific (kept self-contained) */
+  #sl-root{
+    display:flex; flex-direction:column; height:100%; min-height:640px;
+    border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; background:var(--surface);
+  }
+  #sl-root *{outline-color:var(--brand);}
+  #sl-root a{color:var(--brand-dark);}
+  .sl-toolbar{background:var(--surface); border-bottom:1px solid var(--line); padding:18px 20px 14px;}
+  .sl-toolbar-top{display:flex; align-items:baseline; justify-content:space-between; gap:16px; margin-bottom:14px; flex-wrap:wrap;}
+  .sl-title{font-family:var(--font-display); font-weight:600; font-size:22px; letter-spacing:-0.01em; margin:0;}
+  .sl-title span{color:var(--brand);}
+  .sl-count{font-size:13px; color:var(--ink-soft); white-space:nowrap;}
+  .sl-search-row{display:flex; gap:8px; flex-wrap:wrap;}
+  .sl-search-field{position:relative; flex:1 1 260px;}
+  .sl-search-field input{width:100%; padding:10px 14px 10px 38px; border:1px solid var(--line); border-radius:var(--radius-sm); font-family:var(--font-body); font-size:14.5px; background:var(--bg); color:var(--ink);}
+  .sl-search-field input:focus{border-color:var(--brand); background:var(--surface);}
+  .sl-search-field svg{position:absolute; left:12px; top:50%; transform:translateY(-50%); width:16px; height:16px; stroke:var(--ink-faint);}
+  .sl-btn{display:inline-flex; align-items:center; gap:7px; padding:10px 16px; border-radius:var(--radius-sm); border:1px solid var(--line); background:var(--surface); color:var(--ink); font-family:var(--font-body); font-size:14px; font-weight:500; cursor:pointer; white-space:nowrap;}
+  .sl-btn:hover{border-color:var(--ink-faint);}
+  .sl-btn-primary{background:var(--brand); border-color:var(--brand); color:#fff;}
+  .sl-btn-primary:hover{background:var(--brand-dark);}
+  .sl-btn svg{width:15px; height:15px;}
+  .sl-btn:disabled{opacity:0.55; cursor:default;}
+  .sl-chips{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;}
+  .sl-chip{padding:6px 13px; border-radius:999px; border:1px solid var(--line); background:var(--bg); font-size:13px; color:var(--ink-soft); cursor:pointer; user-select:none;}
+  .sl-chip[aria-pressed="true"]{background:var(--brand); border-color:var(--brand); color:#fff;}
+  .sl-unit-toggle{display:flex; border:1px solid var(--line); border-radius:var(--radius-sm); overflow:hidden;}
+  .sl-unit-toggle button{padding:9px 12px; border:0; background:var(--surface); font-size:13px; font-family:var(--font-body); color:var(--ink-soft); cursor:pointer;}
+  .sl-unit-toggle button[aria-pressed="true"]{background:var(--brand-tint); color:var(--brand-dark); font-weight:600;}
+  .sl-view-switch{display:none;}
+  @media (max-width:780px){
+    .sl-view-switch{display:flex; border:1px solid var(--line); border-radius:var(--radius-sm); overflow:hidden; margin-top:12px;}
+    .sl-view-switch button{flex:1; padding:9px; border:0; background:var(--surface); font-size:13.5px; font-family:var(--font-body); font-weight:500; color:var(--ink-soft); cursor:pointer;}
+    .sl-view-switch button[aria-pressed="true"]{background:var(--brand); color:#fff;}
+  }
+  .sl-body{display:flex; flex:1; min-height:0;}
+  .sl-list-pane{width:380px; flex-shrink:0; border-right:1px solid var(--line); overflow-y:auto; background:var(--surface);}
+  .sl-map-pane{flex:1; position:relative; background:#EDEAE4;}
+  #sl-map{position:absolute; inset:0;}
+  @media (max-width:780px){
+    .sl-body{position:relative;}
+    .sl-list-pane{width:100%; border-right:0;}
+    .sl-list-pane, .sl-map-pane{display:none;}
+    #sl-root[data-view="list"] .sl-list-pane{display:block;}
+    #sl-root[data-view="map"] .sl-map-pane{display:block; width:100%;}
+  }
+  .sl-status{padding:28px 20px; text-align:center; color:var(--ink-soft); font-size:14px; line-height:1.6;}
+  .sl-status strong{display:block; color:var(--ink); font-size:15px; margin-bottom:4px; font-family:var(--font-display); font-weight:600;}
+  .sl-card{padding:16px 20px; border-bottom:1px solid var(--line); border-left:3px solid transparent; cursor:pointer;}
+  .sl-card:hover{background:var(--bg);}
+  .sl-card[data-active="true"]{border-left-color:var(--brand); background:var(--brand-tint);}
+  .sl-card-top{display:flex; justify-content:space-between; align-items:baseline; gap:10px;}
+  .sl-card-name{font-family:var(--font-display); font-weight:600; font-size:16px; margin:0;}
+  .sl-card-distance{font-size:12.5px; color:var(--brand-dark); font-weight:600; white-space:nowrap;}
+  .sl-card-address{font-size:13.5px; color:var(--ink-soft); margin:4px 0 8px; line-height:1.45;}
+  .sl-card-meta{display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-size:12.5px; color:var(--ink-soft); margin-bottom:10px;}
+  .sl-tag{padding:2px 9px; border-radius:999px; background:var(--bg); border:1px solid var(--line); font-size:11.5px;}
+  .sl-card-actions{display:flex; gap:8px;}
+  .sl-card-actions a{font-size:12.5px; font-weight:600; text-decoration:none; padding:6px 11px; border-radius:var(--radius-sm); border:1px solid var(--line); color:var(--ink);}
+  .sl-card-actions a:hover{border-color:var(--ink-faint);}
+  .sl-card-actions a.sl-primary-action{background:var(--brand); border-color:var(--brand); color:#fff;}
+  .sl-popup{font-family:var(--font-body); min-width:190px;}
+  .sl-popup h4{font-family:var(--font-display); margin:0 0 4px; font-size:15px;}
+  .sl-popup p{margin:0 0 8px; font-size:13px; color:var(--ink-soft); line-height:1.4;}
+  .sl-popup a{font-size:12.5px; font-weight:600;}
+  .sl-you-marker{width:16px; height:16px; border-radius:50%; background:#2A6FDB; border:3px solid #fff; box-shadow:0 0 0 2px #2A6FDB, 0 1px 4px rgba(0,0,0,0.35);}
+  .sl-footer-credit{padding:8px 20px; font-size:11px; color:var(--ink-faint); border-top:1px solid var(--line); text-align:center;}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-mark">PP</span>
+        Protect Paints
+      </a>
+      <nav class="nav" aria-label="Main">
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="stores.html" class="active">Stores</a>
+        <a href="dealers.html">Dealers</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <section class="section" style="padding-top:48px; padding-bottom:24px;">
+    <div class="container" style="text-align:center;">
+      <p class="eyebrow">Find Us</p>
+      <h1>Store Locator</h1>
+      <p class="lead" style="margin:0 auto;">Find Protect Paints manufacturing plant, depots and distributors across India.</p>
+    </div>
+  </section>
+
+  <section class="stores-wrapper">
+    <div class="container">
+      <div id="sl-root" data-view="list">
+        <div class="sl-toolbar">
+          <div class="sl-toolbar-top">
+            <h2 class="sl-title" id="sl-title">Find a <span>store</span></h2>
+            <div class="sl-count" id="sl-count" aria-live="polite"></div>
+          </div>
+          <div class="sl-search-row">
+            <div class="sl-search-field">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input id="sl-search" type="text" placeholder="Search by city, town or store name" autocomplete="off" aria-label="Search stores">
+            </div>
+            <button class="sl-btn sl-btn-primary" id="sl-locate">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+              Use my location
+            </button>
+            <div class="sl-unit-toggle" role="group" aria-label="Distance unit">
+              <button id="sl-unit-mi" aria-pressed="false">mi</button>
+              <button id="sl-unit-km" aria-pressed="true">km</button>
+            </div>
+          </div>
+          <div class="sl-chips" id="sl-chips" role="group" aria-label="Filter by category"></div>
+          <div class="sl-view-switch" role="group" aria-label="View">
+            <button data-view-btn="list" aria-pressed="true">List</button>
+            <button data-view-btn="map" aria-pressed="false">Map</button>
+          </div>
+        </div>
+        <div class="sl-body">
+          <div class="sl-list-pane" id="sl-list" aria-live="polite"></div>
+          <div class="sl-map-pane"><div id="sl-map"></div></div>
+        </div>
+        <div class="sl-footer-credit">Store data updates automatically from the connected sheet.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo"><span class="logo-mark">PP</span> Protect Paints</a>
+          <p>Premium water-based paints manufactured by Aamir Exports in Palghar, Maharashtra.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <a href="shop.html">Products</a>
+          <a href="stores.html">Store Locator</a>
+          <a href="dealers.html">Become a Dealer</a>
+          <a href="about.html">About Us</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="contact.html">Contact</a>
+          <a href="about.html">Our Story</a>
+        </div>
+        <div class="footer-col">
+          <h4>Reach Us</h4>
+          <p style="font-size:0.9rem; margin:0 0 8px;">Khairepada Village<br>East of Palghar District<br>Maharashtra, India</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Protect Paints / Aamir Exports. All rights reserved.</span>
+        <span>Made in India</span>
+      </div>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/918600154337?text=Hi%2C%20I%27m%20interested%20in%20Protect%20Paints" class="wa-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+(function(){
+  "use strict";
+  var CONFIG = {
+    sheetUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS79wYlHstOAaoBRKdOlIO4GG9ermcEKM0k9Uag8X89lyBhGFfZTX87RHkh0XN4OwHRCzARN4V-GYxr/pub?gid=1150334374&single=true&output=csv",
+    title: "Find a store",
+    brandColor: "#C1440E",
+    unit: "km",
+    defaultCenter: [19.5, 76.5],  // central Maharashtra / India focus
+    defaultZoom: 6,
+    clusterMarkers: true
+  };
+  var params = new URLSearchParams(window.location.search);
+  ["sheet","title","brandColor","unit"].forEach(function(key){
+    var qsKey = key === "sheet" ? "sheet" : key === "brandColor" ? "brand" : key;
+    if (params.has(qsKey)) {
+      if (key === "sheet") CONFIG.sheetUrl = params.get(qsKey);
+      else CONFIG[key] = params.get(qsKey);
+    }
+  });
+  if (CONFIG.brandColor) document.documentElement.style.setProperty("--brand", CONFIG.brandColor);
+  document.getElementById("sl-title").innerHTML = CONFIG.title.replace(/(\S+)$/, "<span>$1</span>");
+  var unit = (CONFIG.unit === "mi") ? "mi" : "km";
+  document.getElementById("sl-unit-" + unit).setAttribute("aria-pressed","true");
+  document.getElementById("sl-unit-" + (unit==="mi"?"km":"mi")).setAttribute("aria-pressed","false");
+
+  var stores = [], activeCategories = new Set(), userLocation = null, searchOrigin = null, geocodeCache = {};
+  var listEl = document.getElementById("sl-list"), countEl = document.getElementById("sl-count"), chipsEl = document.getElementById("sl-chips"), searchEl = document.getElementById("sl-search"), rootEl = document.getElementById("sl-root");
+
+  var map = L.map("sl-map", { zoomControl: true }).setView(CONFIG.defaultCenter, CONFIG.defaultZoom);
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
+  var markerLayer = CONFIG.clusterMarkers && window.L.markerClusterGroup ? L.markerClusterGroup({ maxClusterRadius: 42 }) : L.layerGroup();
+  markerLayer.addTo(map);
+  var youMarker = null, markerById = {};
+
+  function pinIcon(color){
+    var svg = '<svg width="30" height="40" viewBox="0 0 30 40" xmlns="http://www.w3.org/2000/svg"><path d="M15 0C6.7 0 0 6.7 0 15c0 10.5 15 25 15 25s15-14.5 15-25C30 6.7 23.3 0 15 0z" fill="'+color+'"/><circle cx="15" cy="15" r="6" fill="#fff"/></svg>';
+    return L.divIcon({ html: svg, className: "", iconSize: [30,40], iconAnchor: [15,40], popupAnchor: [0,-36] });
+  }
+  var storeIcon = pinIcon(CONFIG.brandColor || "#C1440E");
+
+  function parseCSV(text){
+    var rows = [], row = [], field = "", inQuotes = false;
+    for (var i=0; i<text.length; i++){
+      var c = text[i];
+      if (inQuotes){ if (c === '"'){ if (text[i+1] === '"'){ field += '"'; i++; } else inQuotes = false; } else field += c; }
+      else { if (c === '"') inQuotes = true; else if (c === ","){ row.push(field); field=""; } else if (c === "\n"){ row.push(field); rows.push(row); row=[]; field=""; } else if (c === "\r"){} else field += c; }
+    }
+    if (field.length || row.length){ row.push(field); rows.push(row); }
+    if (!rows.length) return [];
+    var headers = rows[0].map(function(h){ return h.trim().toLowerCase(); });
+    return rows.slice(1).filter(function(r){ return r.some(function(v){return v && v.trim();}); }).map(function(r){
+      var obj = {}; headers.forEach(function(h, idx){ obj[h] = (r[idx] || "").trim(); }); return obj;
+    });
+  }
+  function pick(obj, keys){ for (var i=0;i<keys.length;i++){ if (obj[keys[i]] !== undefined && obj[keys[i]] !== "") return obj[keys[i]]; } return ""; }
+  function normaliseRow(r, idx){
+    var lat = parseFloat(pick(r, ["lat","latitude"])), lng = parseFloat(pick(r, ["lng","lon","long","longitude"]));
+    return { id: "s"+idx, name: pick(r, ["name","store name","store"]) || "Store "+(idx+1), address: pick(r, ["address","address line 1","street"]), city: pick(r, ["city","town"]), postcode: pick(r, ["postcode","zip","zipcode","post code"]), country: pick(r, ["country"]), phone: pick(r, ["phone","telephone","tel"]), email: pick(r, ["email"]), website: pick(r, ["website","url"]), hours: pick(r, ["hours","opening hours"]), category: pick(r, ["category","tag","tags","type"]), lat: isNaN(lat)?null:lat, lng: isNaN(lng)?null:lng, distance: null };
+  }
+  function fullAddress(s){ return [s.address, s.city, s.postcode, s.country].filter(Boolean).join(", "); }
+  function geocode(query){
+    if (geocodeCache[query]) return Promise.resolve(geocodeCache[query]);
+    return fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&q="+encodeURIComponent(query), { headers: { "Accept": "application/json" } })
+      .then(function(res){ return res.json(); }).then(function(data){ if (!data||!data.length) return null; var loc = { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) }; geocodeCache[query]=loc; return loc; }).catch(function(){ return null; });
+  }
+  function geocodeMissing(list){
+    var missing = list.filter(function(s){ return s.lat===null || s.lng===null; });
+    if (!missing.length) return Promise.resolve();
+    var i=0;
+    function next(){ if (i>=missing.length) return Promise.resolve(); var s=missing[i++]; return geocode(fullAddress(s)).then(function(loc){ if(loc){s.lat=loc.lat;s.lng=loc.lng;} return new Promise(function(res){setTimeout(res,1000);}); }).then(next); }
+    return next();
+  }
+  function haversineKm(a,b){ var R=6371, dLat=(b.lat-a.lat)*Math.PI/180, dLng=(b.lng-a.lng)*Math.PI/180, la1=a.lat*Math.PI/180, la2=b.lat*Math.PI/180, h=Math.sin(dLat/2)**2 + Math.cos(la1)*Math.cos(la2)*Math.sin(dLng/2)**2; return R*2*Math.asin(Math.sqrt(h)); }
+  function formatDistance(km){ if (unit==="mi"){ var mi=km*0.621371; return (mi<10?mi.toFixed(1):Math.round(mi))+" mi"; } return (km<10?km.toFixed(1):Math.round(km))+" km"; }
+  function renderChips(){
+    var cats = Array.from(new Set(stores.map(function(s){return s.category;}).filter(Boolean))).sort();
+    chipsEl.innerHTML=""; if (!cats.length) return;
+    cats.forEach(function(cat){ var chip=document.createElement("button"); chip.className="sl-chip"; chip.type="button"; chip.textContent=cat; chip.setAttribute("aria-pressed", activeCategories.has(cat)?"true":"false"); chip.addEventListener("click", function(){ if(activeCategories.has(cat)) activeCategories.delete(cat); else activeCategories.add(cat); chip.setAttribute("aria-pressed", activeCategories.has(cat)?"true":"false"); renderList(); }); chipsEl.appendChild(chip); });
+  }
+  function getFiltered(){ var q=searchEl.value.trim().toLowerCase(); return stores.filter(function(s){ if(activeCategories.size && !activeCategories.has(s.category)) return false; if(!q) return true; var hay=(s.name+" "+s.address+" "+s.city+" "+s.postcode).toLowerCase(); return hay.indexOf(q)!==-1; }); }
+  function renderList(activeId){
+    var list=getFiltered();
+    if (searchOrigin){ list.forEach(function(s){ s.distance=(s.lat!=null&&s.lng!=null)?haversineKm(searchOrigin,s):null; }); list.sort(function(a,b){ if(a.distance==null) return 1; if(b.distance==null) return -1; return a.distance-b.distance; }); }
+    countEl.textContent = list.length+(list.length===1?" store":" stores")+(searchOrigin?" · nearest first":"");
+    markerLayer.clearLayers(); markerById={};
+    if (!list.length){ listEl.innerHTML='<div class="sl-status"><strong>No stores match that search</strong>Try a different city or clear your filters.</div>'; return; }
+    var frag=document.createDocumentFragment();
+    list.forEach(function(s){
+      var card=document.createElement("div"); card.className="sl-card"; card.setAttribute("role","button"); card.tabIndex=0; card.dataset.id=s.id; if(s.id===activeId) card.dataset.active="true";
+      var metaBits=[]; if(s.category) metaBits.push('<span class="sl-tag">'+escapeHtml(s.category)+'</span>'); if(s.hours) metaBits.push('<span>'+escapeHtml(s.hours)+'</span>');
+      card.innerHTML='<div class="sl-card-top"><h3 class="sl-card-name">'+escapeHtml(s.name)+'</h3>'+(s.distance!=null?'<span class="sl-card-distance">'+formatDistance(s.distance)+'</span>':'')+'</div><p class="sl-card-address">'+escapeHtml(fullAddress(s))+'</p>'+(metaBits.length?'<div class="sl-card-meta">'+metaBits.join("")+'</div>':'')+'<div class="sl-card-actions">'+(s.lat!=null?'<a class="sl-primary-action" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination='+s.lat+','+s.lng+'">Directions</a>':'')+(s.phone?'<a href="tel:'+escapeHtml(s.phone)+'">Call</a>':'')+(s.website?'<a target="_blank" rel="noopener" href="'+escapeAttr(s.website)+'">Website</a>':'')+'</div>';
+      card.addEventListener("click", function(){ selectStore(s.id, true); }); card.addEventListener("keydown", function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); selectStore(s.id, true); } });
+      frag.appendChild(card);
+      if (s.lat!=null && s.lng!=null){ var marker=L.marker([s.lat,s.lng],{icon:storeIcon}); marker.bindPopup('<div class="sl-popup"><h4>'+escapeHtml(s.name)+'</h4><p>'+escapeHtml(fullAddress(s))+'</p><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination='+s.lat+','+s.lng+'">Get directions →</a></div>'); marker.on("click", function(){ selectStore(s.id, false); }); markerById[s.id]=marker; markerLayer.addLayer(marker); }
+    });
+    listEl.innerHTML=""; listEl.appendChild(frag);
+    if (list.length && list.some(function(s){return s.lat!=null;}) && !activeId){ var bounds=L.latLngBounds(list.filter(function(s){return s.lat!=null;}).map(function(s){return [s.lat,s.lng];})); map.fitBounds(bounds.pad(0.2), { maxZoom:13 }); }
+  }
+  function selectStore(id, panMap){ document.querySelectorAll(".sl-card").forEach(function(c){ delete c.dataset.active; }); var card=listEl.querySelector('[data-id="'+id+'"]'); if(card){ card.dataset.active="true"; card.scrollIntoView({block:"nearest", behavior:"smooth"}); } var marker=markerById[id]; if(marker){ if(panMap) map.flyTo(marker.getLatLng(), Math.max(map.getZoom(),14), {duration:0.6}); marker.openPopup(); } if(window.innerWidth<=780) setView("map"); }
+  function escapeHtml(str){ return String(str||"").replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+  function escapeAttr(str){ var s=String(str||""); if(!/^https?:\/\//i.test(s)) s="https://"+s; return escapeHtml(s); }
+  function setView(view){ rootEl.dataset.view=view; document.querySelectorAll("[data-view-btn]").forEach(function(btn){ btn.setAttribute("aria-pressed", btn.dataset.viewBtn===view?"true":"false"); }); if(view==="map") setTimeout(function(){ map.invalidateSize(); },50); }
+  document.querySelectorAll("[data-view-btn]").forEach(function(btn){ btn.addEventListener("click", function(){ setView(btn.dataset.viewBtn); }); });
+  var searchDebounce; searchEl.addEventListener("input", function(){ clearTimeout(searchDebounce); searchDebounce=setTimeout(function(){ var q=searchEl.value.trim(); if(q.length>2){ geocode(q).then(function(loc){ if(loc){ searchOrigin=loc; renderList(); } else renderList(); }); } else renderList(); },450); });
+  document.getElementById("sl-locate").addEventListener("click", function(){ var btn=this; if(!navigator.geolocation){ alert("Your browser doesn't support location lookup — try searching by city instead."); return; } btn.disabled=true; var original=btn.innerHTML; btn.textContent="Locating…"; navigator.geolocation.getCurrentPosition(function(pos){ userLocation={lat:pos.coords.latitude, lng:pos.coords.longitude}; searchOrigin=userLocation; if(youMarker) map.removeLayer(youMarker); youMarker=L.marker([userLocation.lat,userLocation.lng],{icon:L.divIcon({className:"", html:'<div class="sl-you-marker"></div>', iconSize:[16,16]})}).addTo(map); map.flyTo([userLocation.lat,userLocation.lng],12,{duration:0.6}); renderList(); btn.disabled=false; btn.innerHTML=original; }, function(){ alert("Couldn't get your location — you can still search by city."); btn.disabled=false; btn.innerHTML=original; }); });
+  function setUnit(u){ unit=u; document.getElementById("sl-unit-mi").setAttribute("aria-pressed",u==="mi"); document.getElementById("sl-unit-km").setAttribute("aria-pressed",u==="km"); renderList(); }
+  document.getElementById("sl-unit-mi").addEventListener("click", function(){ setUnit("mi"); });
+  document.getElementById("sl-unit-km").addEventListener("click", function(){ setUnit("km"); });
+  function showStatus(title, body){ listEl.innerHTML='<div class="sl-status"><strong>'+escapeHtml(title)+'</strong>'+escapeHtml(body)+'</div>'; }
+  function load(){ if(!CONFIG.sheetUrl || CONFIG.sheetUrl.indexOf("PASTE_YOUR")===0){ showStatus("Store list isn't connected yet","Publish your Google Sheet to the web as a CSV and paste the link into CONFIG.sheetUrl."); return; } showStatus("Loading stores…","This only takes a moment."); fetch(CONFIG.sheetUrl).then(function(res){ if(!res.ok) throw new Error("HTTP "+res.status); return res.text(); }).then(function(text){ var rows=parseCSV(text); stores=rows.map(normaliseRow); renderChips(); showStatus("Locating stores…","Placing stores on the map."); return geocodeMissing(stores); }).then(function(){ renderList(); }).catch(function(err){ showStatus("Couldn't load the store list","Double-check the sheet is published to the web as CSV. ("+err.message+")"); }); }
+  load();
+})();
+</script>
+</body>
+</html>
