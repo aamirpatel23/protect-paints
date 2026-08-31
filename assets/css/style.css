@@ -665,7 +665,7 @@ body:not(.home) .site-header .logo { color: var(--ink); }
 
 /* ---------- Stores page embed ---------- */
 .stores-wrapper {
-  padding: 24px 0 80px;
+  padding: 8px 0 48px;
 }
 /* height is controlled inside stores.html so list scrolls + map fills */
 

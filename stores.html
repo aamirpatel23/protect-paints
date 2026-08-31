@@ -17,10 +17,12 @@
   #sl-root{
     display:flex;
     flex-direction:column;
-    height: min(72vh, 720px);   /* fixed box so list scrolls inside */
-    min-height: 560px;
+    /* Large panel on desktop (Base44-style) — fills most of the viewport */
+    height: calc(100vh - 180px);
+    min-height: 640px;
+    max-height: 920px;
     border:1px solid var(--line);
-    border-radius: var(--radius);
+    border-radius: 16px;
     overflow: hidden;
     background: var(--surface);
     box-shadow: var(--shadow);
@@ -51,13 +53,13 @@
   .sl-unit-toggle button[aria-pressed="true"]{background:var(--brand-tint); color:var(--brand-dark); font-weight:600;}
   .sl-view-switch{display:none;}
   @media (max-width:780px){
-    #sl-root{ height: 78vh; min-height: 480px; }
+    #sl-root{ height: 75vh; min-height: 480px; max-height: none; }
     .sl-view-switch{display:flex; border:1px solid var(--line); border-radius:var(--radius-sm); overflow:hidden; margin-top:12px;}
     .sl-view-switch button{flex:1; padding:9px; border:0; background:var(--surface); font-size:13.5px; font-family:var(--font-body); font-weight:500; color:var(--ink-soft); cursor:pointer;}
     .sl-view-switch button[aria-pressed="true"]{background:var(--brand); color:#fff;}
   }
   .sl-body{display:flex; flex:1; min-height:0; overflow:hidden;}
-  .sl-list-pane{width:380px; flex-shrink:0; border-right:1px solid var(--line); overflow-y:auto; background:var(--surface); -webkit-overflow-scrolling:touch;}
+  .sl-list-pane{width:400px; flex-shrink:0; border-right:1px solid var(--line); overflow-y:auto; background:var(--surface); -webkit-overflow-scrolling:touch;}
   .sl-map-pane{flex:1; position:relative; background:#EDEAE4; min-height:0;}
   #sl-map{position:absolute; inset:0; width:100%; height:100%;}
   @media (max-width:780px){
@@ -112,7 +114,7 @@
     </div>
   </header>
 
-  <section class="section" style="padding-top:48px; padding-bottom:24px;">
+  <section class="section" style="padding-top:32px; padding-bottom:12px;">
     <div class="container" style="text-align:center;">
       <p class="eyebrow">Find Us</p>
       <h1>Store Locator</h1>
@@ -305,7 +307,16 @@
   document.getElementById("sl-unit-mi").addEventListener("click", function(){ setUnit("mi"); });
   document.getElementById("sl-unit-km").addEventListener("click", function(){ setUnit("km"); });
   function showStatus(title, body){ listEl.innerHTML='<div class="sl-status"><strong>'+escapeHtml(title)+'</strong>'+escapeHtml(body)+'</div>'; }
-  function load(){ if(!CONFIG.sheetUrl || CONFIG.sheetUrl.indexOf("PASTE_YOUR")===0){ showStatus("Store list isn't connected yet","Publish your Google Sheet to the web as a CSV and paste the link into CONFIG.sheetUrl."); return; } showStatus("Loading stores…","This only takes a moment."); fetch(CONFIG.sheetUrl).then(function(res){ if(!res.ok) throw new Error("HTTP "+res.status); return res.text(); }).then(function(text){ var rows=parseCSV(text); stores=rows.map(normaliseRow); renderChips(); showStatus("Locating stores…","Placing stores on the map."); return geocodeMissing(stores); }).then(function(){ renderList(); setTimeout(function(){ map.invalidateSize(); }, 100); }).catch(function(err){ showStatus("Couldn't load the store list","Double-check the sheet is published to the web as CSV. ("+err.message+")"); }); }
+  function load(){ if(!CONFIG.sheetUrl || CONFIG.sheetUrl.indexOf("PASTE_YOUR")===0){ showStatus("Store list isn't connected yet","Publish your Google Sheet to the web as a CSV and paste the link into CONFIG.sheetUrl."); return; } showStatus("Loading stores…","This only takes a moment."); fetch(CONFIG.sheetUrl).then(function(res){ if(!res.ok) throw new Error("HTTP "+res.status); return res.text(); }).then(function(text){ var rows=parseCSV(text); stores=rows.map(normaliseRow); renderChips(); showStatus("Locating stores…","Placing stores on the map."); return geocodeMissing(stores); }).then(function(){ renderList(); setTimeout(function(){
+      map.invalidateSize();
+      var withCoords = stores.filter(function(s){ return s.lat != null; });
+      if (withCoords.length) {
+        var bounds = L.latLngBounds(withCoords.map(function(s){ return [s.lat, s.lng]; }));
+        map.fitBounds(bounds.pad(0.18), { maxZoom: 8 });
+      } else {
+        map.setView(CONFIG.defaultCenter, CONFIG.defaultZoom);
+      }
+    }, 150); }).catch(function(err){ showStatus("Couldn't load the store list","Double-check the sheet is published to the web as CSV. ("+err.message+")"); }); }
   load();
 })();
 </script>
