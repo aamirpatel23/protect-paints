@@ -4,19 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Our Products — Protect Paints</title>
-  <meta name="description" content="Explore the full range of Protect Paints: exterior emulsions, interior sheens, primers, distempers and damp-proof defender coatings.">
+  <meta name="description" content="Explore the full range of Protect Paints: exterior emulsions, interior sheens, primers, distempers, defender coatings and more.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .product-features { display:flex; flex-wrap:wrap; gap:6px; margin:0 0 14px; padding:0; list-style:none; }
+    .product-features li { font-size:0.72rem; font-weight:500; padding:4px 10px; border-radius:999px; background:var(--bg-alt); border:1px solid var(--line); color:var(--ink-soft); }
+  </style>
 </head>
 <body>
-
   <header class="site-header">
     <div class="container header-inner">
-      <a href="index.html" class="logo">
-        <span class="logo-mark">PP</span>
-        Protect Paints
-      </a>
+      <a href="index.html" class="logo"><span class="logo-mark">PP</span> Protect Paints</a>
       <nav class="nav" aria-label="Main">
         <a href="index.html">Home</a>
         <a href="shop.html" class="active">Shop</a>
@@ -25,9 +25,7 @@
         <a href="about.html">About</a>
         <a href="contact.html">Contact</a>
       </nav>
-      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </header>
 
@@ -36,7 +34,7 @@
       <div style="text-align:center; margin-bottom:40px;">
         <p class="eyebrow">Our Collection</p>
         <h1>Our Products</h1>
-        <p class="lead" style="margin:0 auto;">From exterior shields to interior elegance — premium water-based paints for every surface.</p>
+        <p class="lead" style="margin:0 auto;">Premium water-based paints for every surface — exterior, interior, primers, distempers and protective coatings.</p>
       </div>
 
       <div class="product-filters">
@@ -46,97 +44,193 @@
         <button class="filter-btn" data-filter="primer">Primer</button>
         <button class="filter-btn" data-filter="distemper">Distemper</button>
         <button class="filter-btn" data-filter="defender">Defender</button>
+        <button class="filter-btn" data-filter="specialty">Specialty</button>
       </div>
 
       <div class="product-grid">
-        <!-- Exterior -->
+
         <article class="product-card" data-cat="exterior">
           <div class="product-img">
             <span class="product-tag">Exterior</span>
-            <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=400&q=80" alt="Smile Luxury Exterior">
+            <img src="assets/images/products/smile_exterior.png" alt="Protect Smile Exterior Luxury Paint">
           </div>
           <div class="product-body">
             <h3>Smile Luxury Exterior</h3>
-            <p>Luxury exterior paint with exceptional weather resistance, UV protection and rich colour retention for Indian climates.</p>
-            <a href="contact.html" class="btn btn-sm btn-outline">Enquire Now</a>
+            <p>Anti-carbonation exterior paint with UV & anti-fungal protection, brilliant sheen and water-repellent performance.</p>
+            <ul class="product-features"><li>7-year warranty</li><li>Anti-dust</li><li>Heat & rain resistant</li></ul>
+            <a href="https://wa.me/918600154337?text=Hi%2C%20I%20want%20details%20on%20Smile%20Luxury%20Exterior" class="btn btn-sm btn-outline" target="_blank" rel="noopener">Enquire Now</a>
           </div>
         </article>
 
         <article class="product-card" data-cat="exterior">
           <div class="product-img">
             <span class="product-tag">Exterior</span>
-            <img src="https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=400&q=80" alt="Magic Shine Premium Emulsion">
+            <img src="assets/images/products/magic_shine_exterior.png" alt="Magic Shine Premium Emulsion Exterior">
           </div>
           <div class="product-body">
             <h3>Magic Shine Premium Emulsion Exterior</h3>
-            <p>High-performance premium emulsion offering long-lasting protection, smooth finish and excellent coverage.</p>
-            <a href="contact.html" class="btn btn-sm btn-outline">Enquire Now</a>
+            <p>Retains wall beauty with UV protection, water-repellent finish and excellent hiding power.</p>
+            <ul class="product-features"><li>UV protection</li><li>Water repellent</li><li>Great coverage</li></ul>
+            <a href="https://wa.me/918600154337?text=Hi%2C%20I%20want%20details%20on%20Magic%20Shine%20Exterior" class="btn btn-sm btn-outline" target="_blank" rel="noopener">Enquire Now</a>
           </div>
         </article>
 
-        <!-- Interior -->
+        <article class="product-card" data-cat="exterior">
+          <div class="product-img">
+            <span class="product-tag">Exterior</span>
+            <img src="assets/images/products/weather_proof.png" alt="Protect Weather Proof Exterior Emulsion">
+          </div>
+          <div class="product-body">
+            <h3>Weather Proof Exterior Emulsion</h3>
+            <p>Wall protection system built for Indian weather — durable exterior emulsion for lasting colour and shield.</p>
+            <ul class="product-features"><li>Weather shield</li><li>Exterior use</li></ul>
+            <a href="https://wa.me/918600154337?text=Hi%2C%20I%20want%20details%20on%20Weather%20Proof%20Exterior%20Emulsion" class="btn btn-sm btn-outline" target="_blank" rel="noopener">Enquire Now</a>
+          </div>
+        </article>
+
+        <article class="product-card" data-cat="exterior">
+          <div class="product-img">
+            <span class="product-tag">Exterior</span>
+            <img src="assets/images/products/weather_coat_smile.png" alt="Protect Weather Coat Luxury Emulsion">
+          </div>
+          <div class="product-body">
+            <h3>Weather Coat Luxury Emulsion</h3>
+            <p>Smile Weather Coat luxury exterior emulsion with anti-peel formula for modern façades.</p>
+            <ul class="product-features"><li>Anti-peel</li><li>Luxury finish</li></ul>
+            <a href="https://wa.me/918600154337?text=Hi%2C%20I%20want%20details%20on%20Weather%20Coat%20Luxury%20Emulsion" class="btn btn-sm btn-outline" target="_blank" rel="noopener">Enquire Now</a>
+          </div>
+        </article>
+
+        <article class="product-card" data-cat="exterior">
+          <div class="product-img">
+            <span class="product-tag">Exterior</span>
+            <img src="assets/images/products/hi_gloss_exterior_enamel.png" alt="Protect Hi-Gloss Exterior Enamel">
+          </div>
+          <div class="product-body">
+            <h3>Hi-Gloss Exterior Enamel</h3>
+            <p>High-gloss exterior enamel for a rich, reflective finish on doors, grills and exterior surfaces.</p>
+            <ul class="product-features"><li>High gloss</li><li>Exterior enamel</li></ul>
+            <a href="https://wa.me/918600154337?text=Hi%2C%20I%20want%20details%20on%20Hi-Gloss%20Exterior%20Enamel" class="btn btn-sm btn-outline" target="_blank" rel="noopener">Enquire Now</a>
+          </div>
+        </article>
+
         <article class="product-card" data-cat="interior">
           <div class="product-img">
             <span class="product-tag">Interior</span>
-            <img src="https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=400&q=80" alt="Care Luxury Sheen Interior">
+            <img src="assets/images/products/care.png" alt="Protect Care Interior Luxury Sheen">
           </div>
           <div class="product-body">
             <h3>Care Luxury Sheen Interior</h3>
-            <p>Smooth, washable interior finish with elegant sheen. Low odour and quick drying for comfortable living spaces.</p>
-            <a href="contact.html" class="btn btn-sm btn-outline">Enquire Now</a>
+            <p>High durability interior sheen with smooth finish, tough film, stain resistance and easy washability.</p>
+            <ul class="product-features"><li>Stain resistant</li><li>Peel resistant</li><li>Better coverage</li></ul>
+            <a href="https://wa.me/918600154337?text=Hi%2C%20I%20want%20details%20on%20Care%20Luxury%20Sheen" class="btn btn-sm btn-outline" target="_blank" rel="noopener">Enquire Now</a>
           </div>
         </article>
 
         <article class="product-card" data-cat="interior">
           <div class="product-img">
             <span class="product-tag">Interior</span>
-            <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=400&q=80" alt="Interior Emulsion">
+            <img src="assets/images/products/magic_shine_interior.png" alt="Magic Shine Premium Emulsion Interior">
           </div>
           <div class="product-body">
-            <h3>Protect Interior Emulsion</h3>
-            <p>Reliable everyday interior emulsion with great coverage, easy clean-up and a soft matte-to-eggshell finish.</p>
-            <a href="contact.html" class="btn btn-sm btn-outline">Enquire Now</a>
+            <h3>Magic Shine Premium Emulsion Interior</h3>
+            <p>Premium interior emulsion with smooth coverage and a refined finish for everyday living spaces.</p>
+            <ul class="product-features"><li>Premium finish</li><li>Low odour</li></ul>
+            <a href="https://wa.me/918600154337?text=Hi%2C%20I%20want%20details%20on%20Magic%20Shine%20Interior" class="btn btn-sm btn-outline" target="_blank" rel="noopener">Enquire Now</a>
           </div>
         </article>
 
-        <!-- Primer -->
+        <article class="product-card" data-cat="interior">
+          <div class="product-img">
+            <span class="product-tag">Interior</span>
+            <img src="assets/images/products/sparkling.png" alt="Protect Sparkling Luxury Emulsion">
+          </div>
+          <div class="product-body">
+            <h3>Sparkling Luxury Emulsion</h3>
+            <p>Vibrant luxury emulsion for interiors that demand rich colour and a polished look.</p>
+            <ul class="product-features"><li>Luxury range</li><li>Rich colour</li></ul>
+            <a href="https://wa.me/918600154337?text=Hi%2C%20I%20want%20details%20on%20Sparkling%20Luxury%20Emulsion" class="btn btn-sm btn-outline" target="_blank" rel="noopener">Enquire Now</a>
+          </div>
+        </article>
+
         <article class="product-card" data-cat="primer">
           <div class="product-img">
             <span class="product-tag">Primer</span>
-            <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=400&q=80" alt="Protect Primer">
+            <img src="assets/images/products/primer_magic.png" alt="Protect Magic Primer">
           </div>
           <div class="product-body">
-            <h3>Protect Primer</h3>
-            <p>Superior adhesion and durability. Designed for a smooth base on any surface — ideal for professionals and DIY.</p>
-            <a href="contact.html" class="btn btn-sm btn-outline">Enquire Now</a>
+            <h3>Magic Primer (Exterior / Interior)</h3>
+            <p>Water-thinnable primer for exterior and interior surfaces. Strong adhesion base before top coats.</p>
+            <ul class="product-features"><li>Water thinnable</li><li>Anti-algal</li><li>Ext / Int</li></ul>
+            <a href="https://wa.me/918600154337?text=Hi%2C%20I%20want%20details%20on%20Magic%20Primer" class="btn btn-sm btn-outline" target="_blank" rel="noopener">Enquire Now</a>
           </div>
         </article>
 
-        <!-- Distemper -->
         <article class="product-card" data-cat="distemper">
           <div class="product-img">
             <span class="product-tag">Distemper</span>
-            <img src="https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=400&q=80" alt="Magic Acrylic Distemper">
+            <img src="assets/images/products/distemper_magic.png" alt="Protect Magic Acrylic Distemper">
           </div>
           <div class="product-body">
             <h3>Magic Acrylic Distemper</h3>
-            <p>Premium acrylic distemper for a smooth, breathable finish. Perfect for cost-effective interior projects.</p>
-            <a href="contact.html" class="btn btn-sm btn-outline">Enquire Now</a>
+            <p>Premium acrylic distemper for a smooth, breathable interior finish — ideal for cost-effective projects.</p>
+            <ul class="product-features"><li>Acrylic</li><li>Smooth finish</li></ul>
+            <a href="https://wa.me/918600154337?text=Hi%2C%20I%20want%20details%20on%20Magic%20Acrylic%20Distemper" class="btn btn-sm btn-outline" target="_blank" rel="noopener">Enquire Now</a>
           </div>
         </article>
 
-        <!-- Defender -->
+        <article class="product-card" data-cat="distemper">
+          <div class="product-img">
+            <span class="product-tag">Distemper</span>
+            <img src="assets/images/products/distemper_white.png" alt="Protect Acrylic Distemper White">
+          </div>
+          <div class="product-body">
+            <h3>Acrylic Distemper — White</h3>
+            <p>Classic white acrylic distemper for clean, bright interiors with easy application and good coverage.</p>
+            <ul class="product-features"><li>White</li><li>Interior</li></ul>
+            <a href="https://wa.me/918600154337?text=Hi%2C%20I%20want%20details%20on%20Acrylic%20Distemper%20White" class="btn btn-sm btn-outline" target="_blank" rel="noopener">Enquire Now</a>
+          </div>
+        </article>
+
         <article class="product-card" data-cat="defender">
           <div class="product-img">
             <span class="product-tag">Defender</span>
-            <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=400&q=80" alt="Smart Choice Defender">
+            <img src="assets/images/products/defender.png" alt="Protect Smart Choice Defender">
           </div>
           <div class="product-body">
             <h3>Smart Choice Defender</h3>
-            <p>Advanced protective formula that fights damp, mould and moisture — essential for basements and humid zones.</p>
-            <a href="contact.html" class="btn btn-sm btn-outline">Enquire Now</a>
+            <p>Water-repellent terrace & wall protection with crack-filling capacity, non-corrosive and odourless formula.</p>
+            <ul class="product-features"><li>Terrace ready</li><li>Crack filling</li><li>Odourless</li></ul>
+            <a href="https://wa.me/918600154337?text=Hi%2C%20I%20want%20details%20on%20Smart%20Choice%20Defender" class="btn btn-sm btn-outline" target="_blank" rel="noopener">Enquire Now</a>
           </div>
         </article>
+
+        <article class="product-card" data-cat="specialty">
+          <div class="product-img">
+            <span class="product-tag">Specialty</span>
+            <img src="assets/images/products/floor_coat.png" alt="Protect Floor Coat Exterior Hi-Gloss">
+          </div>
+          <div class="product-body">
+            <h3>Floor Coat — Exterior Hi-Gloss</h3>
+            <p>Tough hi-gloss floor coating for exterior floors that need durability and a clean, glossy surface.</p>
+            <ul class="product-features"><li>Hi-gloss</li><li>Floor use</li></ul>
+            <a href="https://wa.me/918600154337?text=Hi%2C%20I%20want%20details%20on%20Floor%20Coat" class="btn btn-sm btn-outline" target="_blank" rel="noopener">Enquire Now</a>
+          </div>
+        </article>
+
+        <article class="product-card" data-cat="specialty">
+          <div class="product-img">
+            <span class="product-tag">Specialty</span>
+            <img src="assets/images/products/pu.png" alt="Protect Polyurethane Complete Paint">
+          </div>
+          <div class="product-body">
+            <h3>Polyurethane Complete Paint</h3>
+            <p>Complete polyurethane system for a hard-wearing, high-performance finish where extra toughness is required.</p>
+            <ul class="product-features"><li>PU system</li><li>Durable</li></ul>
+            <a href="https://wa.me/918600154337?text=Hi%2C%20I%20want%20details%20on%20Polyurethane%20Complete%20Paint" class="btn btn-sm btn-outline" target="_blank" rel="noopener">Enquire Now</a>
+          </div>
+        </article>
+
       </div>
     </div>
   </section>
@@ -146,7 +240,7 @@
       <h2>Need help choosing?</h2>
       <p class="lead" style="margin:0 auto 1.5rem;">Talk to us on WhatsApp or find your nearest dealer for samples and expert advice.</p>
       <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
-        <a href="https://wa.me/918600154337" class="btn btn-primary" target="_blank" rel="noopener">WhatsApp Us</a>
+        <a href="https://wa.me/918600154337?text=Hi%2C%20I%20need%20help%20choosing%20a%20Protect%20Paints%20product" class="btn btn-primary" target="_blank" rel="noopener">WhatsApp Us</a>
         <a href="stores.html" class="btn btn-outline">Find a Store</a>
       </div>
     </div>
@@ -159,33 +253,14 @@
           <a href="index.html" class="logo"><span class="logo-mark">PP</span> Protect Paints</a>
           <p>Premium water-based paints manufactured by Aamir Exports in Palghar, Maharashtra.</p>
           <div class="footer-social" aria-label="Follow us">
-            <a href="https://www.instagram.com/protectpaints" target="_blank" rel="noopener" aria-label="Instagram">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-            </a>
-            <a href="https://x.com/protectpaints" target="_blank" rel="noopener" aria-label="X (Twitter)">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.227-8.451L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
-            </a>
-            <a href="https://wa.me/918600154337" target="_blank" rel="noopener" aria-label="WhatsApp">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            </a>
+            <a href="https://www.instagram.com/protectpaints" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+            <a href="https://x.com/protectpaints" target="_blank" rel="noopener" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.227-8.451L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg></a>
+            <a href="https://wa.me/918600154337" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
           </div>
         </div>
-        <div class="footer-col">
-          <h4>Explore</h4>
-          <a href="shop.html">Products</a>
-          <a href="stores.html">Store Locator</a>
-          <a href="dealers.html">Become a Dealer</a>
-          <a href="about.html">About Us</a>
-        </div>
-        <div class="footer-col">
-          <h4>Company</h4>
-          <a href="contact.html">Contact</a>
-          <a href="about.html">Our Story</a>
-        </div>
-        <div class="footer-col">
-          <h4>Reach Us</h4>
-          <p style="font-size:0.9rem; margin:0 0 8px;">Khairepada Village<br>East of Palghar District<br>Maharashtra, India</p>
-        </div>
+        <div class="footer-col"><h4>Explore</h4><a href="shop.html">Products</a><a href="stores.html">Store Locator</a><a href="dealers.html">Become a Dealer</a><a href="about.html">About Us</a></div>
+        <div class="footer-col"><h4>Company</h4><a href="contact.html">Contact</a><a href="about.html">Our Story</a></div>
+        <div class="footer-col"><h4>Reach Us</h4><p style="font-size:0.9rem; margin:0 0 8px;">Khairepada Village<br>East of Palghar District<br>Maharashtra, India</p></div>
       </div>
       <div class="footer-bottom">
         <span>© 2026 Protect Paints / Aamir Exports. All rights reserved.</span>
@@ -197,7 +272,6 @@
   <a href="https://wa.me/918600154337?text=Hi%2C%20I%27m%20interested%20in%20Protect%20Paints" class="wa-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
   </a>
-
   <script src="assets/js/main.js"></script>
 </body>
 </html>

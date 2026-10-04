@@ -154,7 +154,6 @@ body:not(.home) .site-header {
   box-shadow: none;
 }
 body:not(.home) { padding-top: 72px; }
-body:not(.home) .site-header .logo { color: var(--ink); }
 .header-inner {
   display: flex;
   align-items: center;
@@ -168,7 +167,7 @@ body:not(.home) .site-header .logo { color: var(--ink); }
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 1.15rem;
-  color: #fff; /* white — no pill/background */
+  color: var(--ink); /* default: dark text on light pages */
   text-decoration: none;
   background: none;
   backdrop-filter: none;
@@ -177,6 +176,15 @@ body:not(.home) .site-header .logo { color: var(--ink); }
   border: none;
   border-radius: 0;
   box-shadow: none;
+  transition: color 0.2s ease;
+}
+/* White logo text when header sits on a dark background */
+.site-header.logo-on-dark .logo,
+body.home .site-header:not(.is-scrolled):not(.logo-on-light) .logo {
+  color: #fff;
+}
+.site-header.logo-on-light .logo {
+  color: var(--ink);
 }
 .logo-mark {
   width: 36px;
@@ -411,11 +419,17 @@ body:not(.home) .site-header .logo { color: var(--ink); }
 .product-body .btn { align-self: flex-start; }
 
 /* Colored card backgrounds for variety */
-.product-card[data-cat="distemper"] .product-img { background: #C1440E; }
-.product-card[data-cat="exterior"] .product-img { background: #8B5E3C; }
-.product-card[data-cat="interior"] .product-img { background: #5C6B6B; }
-.product-card[data-cat="primer"] .product-img { background: #4A5568; }
-.product-card[data-cat="defender"] .product-img { background: #3D4F3D; }
+/* Neutral card image area — real product photos sit on soft cream */
+.product-card .product-img {
+  background: linear-gradient(180deg, #F7F3ED 0%, #EFE8DF 100%);
+}
+.product-card .product-img img {
+  max-height: 220px;
+  width: auto;
+  max-width: 92%;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 22px rgba(0,0,0,0.14));
+}
 
 /* ---------- Feature / About blocks ---------- */
 .split {
