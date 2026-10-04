@@ -598,6 +598,56 @@ body.home .site-header:not(.is-scrolled):not(.logo-on-light) .logo {
   .stats-grid { grid-template-columns: 1fr; }
 }
 
+
+/* ---------- Clients logo strip ---------- */
+.clients-section {
+  padding: 72px 0;
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.clients-section .eyebrow { text-align: center; }
+.clients-section h2 { text-align: center; margin-bottom: 12px; }
+.clients-section .lead { text-align: center; margin: 0 auto 40px; }
+.clients-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  align-items: center;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.client-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  padding: 16px 20px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.client-logo:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+.client-logo img {
+  max-height: 64px;
+  max-width: 100%;
+  width: auto;
+  object-fit: contain;
+  filter: none;
+}
+@media (max-width: 900px) {
+  .clients-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 560px) {
+  .clients-grid { grid-template-columns: repeat(2, 1fr); }
+  .client-logo { height: 88px; padding: 12px; }
+  .client-logo img { max-height: 52px; }
+}
+
 /* ---------- Footer ---------- */
 .site-footer {
   background: #1A1714;
